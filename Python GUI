@@ -1,0 +1,273 @@
+import wx
+import time
+import serial
+import os
+import sys
+
+path = '/dev/ttyACM0'
+
+try:
+    ser = serial.Serial(path, 9600)
+except:
+    path = '/dev/ttyACM1'
+    try:
+        ser = serial.Serial(path, 9600)
+    except:
+        print 'Arduino Connection Failed'
+'''if os.geteuid() != 0:
+    print 'okko'
+    os.execvp("sudo", ["sudo"] + sys.argv)
+print 'oio'''
+
+class PageOne(wx.Panel):
+    def __init__(self, parent):
+        wx.Panel.__init__(self, parent)
+        self.SetBackgroundColour('yellow')
+        #self.c_down = False        
+        
+        topSzr = wx.BoxSizer(wx.VERTICAL)
+        txtSzr = wx.BoxSizer(wx.HORIZONTAL)
+        txtSzr1 = wx.BoxSizer(wx.HORIZONTAL)
+        txtSzr2 = wx.BoxSizer(wx.HORIZONTAL)
+        txtSzr3 = wx.BoxSizer(wx.HORIZONTAL)
+        txtSzr4 = wx.BoxSizer(wx.HORIZONTAL)
+        txtSzr5 = wx.BoxSizer(wx.HORIZONTAL)
+        txtSzr6 = wx.BoxSizer(wx.HORIZONTAL)
+        txtSzr7 = wx.BoxSizer(wx.HORIZONTAL)
+        txtSzr8 = wx.BoxSizer(wx.HORIZONTAL)
+        txtSzr9 = wx.BoxSizer(wx.HORIZONTAL)
+        txtSzr10 = wx.BoxSizer(wx.HORIZONTAL)
+        txtSzr11 = wx.BoxSizer(wx.HORIZONTAL)
+        txtSzr12 = wx.BoxSizer(wx.HORIZONTAL)
+        txtSzrV = wx.BoxSizer(wx.VERTICAL)
+
+        btnSzr1 = wx.BoxSizer(wx.HORIZONTAL)
+        btnSzr2 = wx.BoxSizer(wx.HORIZONTAL)        
+        
+        txtCtr = wx.TextCtrl(self, value="", size=(300, 200), style=wx.TE_MULTILINE|wx.TE_AUTO_URL)
+ 
+        txtCtr.Bind(wx.EVT_CHAR, self.clkBut)
+        txtCtr.SetFocus()   
+        
+        t1 = wx.StaticText(self, -1, "Command:")
+        self.t2 = wx.StaticText(self, -1, "")
+        
+        btn1 = wx.Button(self, id=wx.ID_ANY, label='UP TOP')
+        btn2 = wx.Button(self, id=wx.ID_ANY, label='UP MID')
+        btn3 = wx.Button(self, id=wx.ID_ANY, label='UP BOT')
+        btn4 = wx.Button(self, id=wx.ID_ANY, label='DOWN TOP')
+        btn5 = wx.Button(self, id=wx.ID_ANY, label='DOWN MID')
+        btn6 = wx.Button(self, id=wx.ID_ANY, label='DOWN BOT')
+        btn7 = wx.Button(self, id=wx.ID_ANY, label='LEFT')
+        btn8 = wx.Button(self, id=wx.ID_ANY, label='RIGHT')
+        btn9 = wx.Button(self, id=wx.ID_ANY, label='OPEN')
+        btn10 = wx.Button(self, id=wx.ID_ANY, label='CLOSE')
+        #btn1.Bind(wx.EVT_LEFT_DOWN, self.clickedbutton)
+            
+        t3 = wx.StaticText(self, -1, "A :UP TOP")
+        t4 = wx.StaticText(self, -1, "B: UP MID   : RIGHT SMIRK")
+        t5 = wx.StaticText(self, -1, "C: UP BOT")
+        t6 = wx.StaticText(self, -1, "D: DOWN TOP")
+        t7 = wx.StaticText(self, -1, "E: DOWN MID : LEFT SMIRK")
+        t8 = wx.StaticText(self, -1, "F: DOWN BOT")
+        t9 = wx.StaticText(self, -1, "G: LEFT     : WINK LEFT")
+        t10 = wx.StaticText(self, -1, "H: RIGHT   : WINK RIGHT")
+        t11 = wx.StaticText(self, -1, "I: OPEN    : RAISE BROW")
+        t12 = wx.StaticText(self, -1, "J: CLOSE   : CLENCH")
+
+        tl = [t3, t4, t5, t6, t7, t8, t9, t10, t11, t12]
+        for t in tl:
+            t.SetForegroundColour((0, 0,255)) # set text color
+            t.SetBackgroundColour((0,255,255))
+
+        buttons1 = [btn1, btn2, btn3, btn4, btn5, btn6]
+        for btn in buttons1:
+            self.buildButtons(btn, btnSzr1)
+            
+        buttons2 = [btn7, btn8, btn9, btn10]
+        for btn in buttons2:
+            self.buildButtons(btn, btnSzr2)
+
+        txtSzr.Add(txtCtr, 0, wx.ALL)
+        txtSzr1.Add(t1, 0, wx.ALL, 5)
+        txtSzr1.Add(self.t2, 0, wx.ALL, 5)
+        #btnSzr.Add(btn1, 0, wx.ALIGN_CENTER)
+        
+        #txtSzr.Add(txtSzrV, 0, wx.ALL, 5)
+        
+        #sizer0 = [txtSzr1, txtSzr2, txtSzr3, txtSzr4, txtSzr5, txtSzr6, txtSzr7, txtSzr8, txtSzr9, txtSzr10, txtSzr11, txtSzr12]
+        sizer0 = [txtSzr1, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12]
+        for szr in sizer0:
+            self.buildSizer(szr, txtSzrV)
+        txtSzr.Add(txtSzrV, 0, wx.ALL, 5)
+        #txtSzrV.Add(txtSzr2, 0, wx.ALL, 5)
+
+
+        sizer = [txtSzr, btnSzr1, btnSzr2]
+        for szr in sizer:
+            self.buildSizer(szr, topSzr)
+        
+        '''topSzr.Add(txtSzr, 0, wx.ALL, 5)
+        topSzr.Add(btnSzr, 0, wx.ALL, 5)'''
+        
+        self.SetSizer(topSzr)
+        topSzr.Fit(self)
+             
+        
+    def buildSizer(self, sizer1, sizer2):
+        sizer2.Add(sizer1, 0, wx.ALL, 5)
+        
+    def buildButtons(self, btn, sizer):
+        """"""
+        btn.Bind(wx.EVT_BUTTON, self.clkBut)
+        sizer.Add(btn, 0, wx.ALL, 5)
+
+    def clkBut(self, event):
+        try:
+            button = event.GetEventObject()
+            Label = button.GetLabel()
+            #self.t2.SetLabel(Label)
+        except:
+            Label = 'none'
+        try:
+            key = event.GetKeyCode()
+        except:
+            key = 'none'
+        #State = e.LeftUp()
+        #print State, 'asdfasdfsdd'
+        x = 1
+        num = 2
+        #print key
+        if (Label == 'UP TOP' or key==65):
+            try:
+                print 'Up Top'
+                self.t2.SetLabel('Up Top')
+                while x < num:
+                    x = x + 1
+                    ser.write('A')
+            except:
+                print 'NM UT:'
+        elif (Label == 'UP MID' or key==66):
+            try:
+                print 'Up Mid'
+                self.t2.SetLabel('Up Mid')
+                while x < num:
+                    x = x + 1
+                    ser.write('B')
+            except:
+                print 'NM UM:'
+        elif (Label == 'UP BOT' or key==67):
+            try:
+                print 'Mov Up Bot'
+                self.t2.SetLabel('Up Bot')
+                while x < num:
+                    x = x + 1
+                    ser.write('C')
+            except:
+                print 'NM UB:'
+        elif (Label == 'DOWN TOP' or key==68):
+            try:
+                print 'Moving Bottom Down'
+                self.t2.SetLabel('Down Top')
+                while x < num:
+                    x = x + 1
+                    ser.write('D')
+            except:
+                print 'NM DT:'
+        elif (Label == 'DOWN MID' or key==69):
+            try:
+                print 'DOWN MID'
+                self.t2.SetLabel('Down Mid')
+                while x < num:
+                    x = x + 1
+                    ser.write('E')
+            except:
+                print 'NM DM:'
+        elif (Label == 'DOWN BOT' or key==70):
+            try:
+                print 'DOWN BOT'
+                self.t2.SetLabel('Down Bot')
+                while x < num:
+                    x = x + 1
+                    ser.write('F')
+            except:
+                print'NM DB:'
+        elif (Label == 'LEFT' or key==71):
+            try:
+                print 'LEFT'
+                self.t2.SetLabel('LEFT')
+                while x < num:
+                    x = x +1
+                    ser.write('G')
+            except:
+                print 'NM L:'
+        elif (Label == 'RIGHT' or key==72):
+            try:
+                print 'RIGHT'
+                self.t2.SetLabel('RIGHT')
+                while x < num:
+                    x = x + 1
+                    ser.write('H')
+            except:
+                print 'NM R:'
+        elif (Label == 'OPEN' or key==73):
+            try:
+                print 'OPEN'
+                self.t2.SetLabel('Open')
+                while x < num:
+                    x = x + 1
+                    ser.write('I')
+            except:
+                print 'NM O'
+        elif (Label == 'CLOSE' or key==74):
+            try:
+                print 'CLOSE'
+                self.t2.SetLabel('Close')
+                while x < num:
+                    x = x + 1
+                    ser.write('J')
+            except:
+                print 'NM C'
+        event.Skip()          
+                                
+'''class PageTwo(wx.Panel):
+    def __init__(self, parent):
+        wx.Panel.__init__(self, parent)
+        t = wx.StaticText(self, -1, "This is a PageTwo object", (40,40))
+
+class PageThree(wx.Panel):
+    def __init__(self, parent):
+        wx.Panel.__init__(self, parent)
+        t = wx.StaticText(self, -1, "This is a PageThree object", (60,60))
+        self.SetBackgroundColour('blue')'''
+
+class MainFrame(wx.Frame):
+    def __init__(self):
+        wx.Frame.__init__(self, None, title="EEGZ",
+                          pos=(150, 150), size=(620, 480))
+        self.SetBackgroundColour('blue')
+        # Here we create a panel and a notebook on the panel
+        p = wx.Panel(self)
+        nb = wx.Notebook(p)
+
+        # create the page windows as children of the notebook
+        page1 = PageOne(nb)
+        # page2 = PageTwo(nb)
+        # page3 = PageThree(nb)
+
+        # add the pages to the notebook with the label to show on the tab
+        nb.AddPage(page1, "Page 1")
+        #nb.AddPage(page2, "Page 2")
+        #nb.AddPage(page3, "Page 3")
+
+        # finally, put the notebook in a sizer for the panel to manage
+        # the layout
+        sizer = wx.BoxSizer()
+        sizer.Add(nb, 1, wx.EXPAND)
+        p.SetSizer(sizer)
+
+
+if __name__ == "__main__":
+    app = wx.App()
+    MainFrame().Show()
+    app.MainLoop()
