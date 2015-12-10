@@ -1,0 +1,202 @@
+#define UP_TOP 10
+#define UP_MID 11
+#define UP_BOT 5
+#define DN_TOP 4
+#define DN_MID 9
+#define DN_BOT 6
+#define LF 7
+#define RT 3
+#define OP 12
+#define CL 8
+#define POISSON 13
+#define DELAY 200
+
+void setup()
+{
+	pinMode(UP_TOP, OUTPUT);
+        pinMode(UP_MID, OUTPUT);
+        pinMode(UP_BOT, OUTPUT);
+        pinMode(DN_TOP, OUTPUT);
+        pinMode(DN_MID, OUTPUT);
+  	pinMode(DN_BOT, OUTPUT);
+  	pinMode(LF, OUTPUT);
+  	pinMode(RT, OUTPUT);
+  	pinMode(OP, OUTPUT);
+  	pinMode(CL, OUTPUT);
+        pinMode(POISSON, OUTPUT);
+  	Serial.begin(9600);
+}
+
+char cmd = 'X';
+
+void loop()
+{
+	cmd = Serial.read();
+	switch(cmd)
+	{
+		case 'A':
+			digitalWrite(LF, 0);
+			digitalWrite(RT, 0);
+			digitalWrite(OP, 0);
+			digitalWrite(CL, 0);
+                        digitalWrite(DN_TOP, 0);
+                        digitalWrite(DN_MID, 0);
+			digitalWrite(DN_BOT, 0);
+			digitalWrite(UP_MID, 0);
+			digitalWrite(UP_BOT, 0);
+                        Serial.println("MOVING UP TOP");
+			digitalWrite(UP_TOP, 1);
+                        digitalWrite(POISSON, 1);
+			delay(DELAY);
+			break;
+		case 'B':
+			digitalWrite(LF, 0);
+			digitalWrite(RT, 0);
+			digitalWrite(OP, 0);
+			digitalWrite(CL, 0);
+                        digitalWrite(DN_TOP, 0);
+                        digitalWrite(DN_MID, 0);
+			digitalWrite(DN_BOT, 0);
+			digitalWrite(UP_TOP, 0);
+			digitalWrite(UP_BOT, 0);
+                        Serial.println("MOVING UP MID");
+			digitalWrite(UP_MID, 1);
+                        digitalWrite(POISSON, 1);
+			delay(DELAY);
+			break;
+                case 'C':
+			digitalWrite(LF, 0);
+			digitalWrite(RT, 0);
+			digitalWrite(OP, 0);
+			digitalWrite(CL, 0);
+                        digitalWrite(DN_TOP, 0);
+                        digitalWrite(DN_MID, 0);
+			digitalWrite(DN_BOT, 0);
+			digitalWrite(UP_TOP, 0);
+			digitalWrite(UP_MID, 0);
+                        Serial.println("MOVING UP BOTTOM");
+			digitalWrite(UP_BOT, 1);
+                        digitalWrite(POISSON, 1);
+			delay(DELAY);
+			break;
+                case 'D':
+			digitalWrite(LF, 0);
+			digitalWrite(RT, 0);
+			digitalWrite(OP, 0);
+			digitalWrite(CL, 0);
+                        digitalWrite(UP_BOT, 0);
+                        digitalWrite(DN_MID, 0);
+			digitalWrite(DN_BOT, 0);
+			digitalWrite(UP_TOP, 0);
+			digitalWrite(UP_MID, 0);
+                        Serial.println("MOVING DOWN TOP");
+			digitalWrite(DN_TOP, 1);
+                        digitalWrite(POISSON, 1);
+			delay(DELAY);
+			break;
+                case 'E':
+			digitalWrite(LF, 0);
+			digitalWrite(RT, 0);
+			digitalWrite(OP, 0);
+			digitalWrite(CL, 0);
+                        digitalWrite(DN_TOP, 0);
+                        digitalWrite(UP_BOT, 0);
+			digitalWrite(DN_BOT, 0);
+			digitalWrite(UP_TOP, 0);
+			digitalWrite(UP_MID, 0);
+                        Serial.println("MOVING DOWN MID");
+			digitalWrite(DN_MID, 1);
+                        digitalWrite(POISSON, 1);
+			delay(DELAY);
+			break;
+                case 'F':
+			digitalWrite(LF, 0);
+			digitalWrite(RT, 0);
+			digitalWrite(OP, 0);
+			digitalWrite(CL, 0);
+                        digitalWrite(DN_TOP, 0);
+                        digitalWrite(DN_MID, 0);
+			digitalWrite(UP_BOT, 0);
+			digitalWrite(UP_TOP, 0);
+			digitalWrite(UP_MID, 0);
+                        Serial.println("MOVING DOWN BOTTOM");
+			digitalWrite(DN_BOT, 1);
+                        digitalWrite(POISSON, 1);
+			delay(DELAY);
+			break;
+                case 'G':
+			digitalWrite(UP_BOT, 0);
+			digitalWrite(RT, 0);
+			digitalWrite(OP, 0);
+			digitalWrite(CL, 0);
+                        digitalWrite(DN_TOP, 0);
+                        digitalWrite(DN_MID, 0);
+			digitalWrite(DN_BOT, 0);
+			digitalWrite(UP_TOP, 0);
+			digitalWrite(UP_MID, 0);
+                        Serial.println("MOVING LEFT");
+			digitalWrite(LF, 1);
+                        digitalWrite(POISSON, 1);
+			delay(DELAY);
+			break;
+                case 'H':
+			digitalWrite(LF, 0);
+			digitalWrite(UP_BOT, 0);
+			digitalWrite(OP, 0);
+			digitalWrite(CL, 0);
+                        digitalWrite(DN_TOP, 0);
+                        digitalWrite(DN_MID, 0);
+			digitalWrite(DN_BOT, 0);
+			digitalWrite(UP_TOP, 0);
+			digitalWrite(UP_MID, 0);
+                        Serial.println("MOVING RIGHT");
+			digitalWrite(RT, 1);
+                        digitalWrite(POISSON, 1);
+			delay(DELAY);
+			break;
+                case 'I':
+			digitalWrite(LF, 0);
+			digitalWrite(RT, 0);
+			digitalWrite(UP_BOT, 0);
+			digitalWrite(CL, 0);
+                        digitalWrite(DN_TOP, 0);
+                        digitalWrite(DN_MID, 0);
+			digitalWrite(DN_BOT, 0);
+			digitalWrite(UP_TOP, 0);
+			digitalWrite(UP_MID, 0);
+                        Serial.println("OPENING");
+			digitalWrite(OP, 1);
+                        digitalWrite(POISSON, 1);
+			delay(DELAY);
+			break;
+                case 'J':
+			digitalWrite(LF, 0);
+			digitalWrite(RT, 0);
+			digitalWrite(OP, 0);
+			digitalWrite(UP_BOT, 0);
+                        digitalWrite(DN_TOP, 0);
+                        digitalWrite(DN_MID, 0);
+			digitalWrite(DN_BOT, 0);
+			digitalWrite(UP_TOP, 0);
+			digitalWrite(UP_MID, 0);
+                        Serial.println("CLOSING");
+			digitalWrite(CL, 1);
+                        digitalWrite(POISSON, 1);
+			delay(DELAY);
+			break;
+		default:
+			digitalWrite(LF, 0);
+			digitalWrite(RT, 0);
+			digitalWrite(OP, 0);
+			digitalWrite(UP_BOT, 0);
+                        digitalWrite(DN_TOP, 0);
+                        digitalWrite(DN_MID, 0);
+			digitalWrite(DN_BOT, 0);
+			digitalWrite(UP_TOP, 0);
+			digitalWrite(UP_MID, 0);
+			digitalWrite(CL, 0);
+                        digitalWrite(POISSON, 0);
+			delay(DELAY);
+			break;
+	}
+}
